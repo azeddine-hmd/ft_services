@@ -1,0 +1,21 @@
+#!/bin/bash
+
+usage() {
+	echo "Usage: build_docker [-h] [DOCKER_ARGUMENT ...]"
+	echo "Note: before executing, export CONTAINER and PORT varaibles."
+}
+
+# help option
+[[ $1 == "-h" ]] && usage && exit 0
+
+# handling errors
+[ -z "$CONTAINER" ] && echo "error: container name is empty" && exit 1
+[ -z "$PORT" ] && echo "error: port number is empty" && exit 2
+
+# handling signals
+trap 'echo trying && docker container stop $(docker ps -f ancestor=$CONTAINER)' SIGTSTP
+
+# building and running container
+echo "running container [$CONTAINER:$PORT]..."
+docker build . -t $CONTAINER > /dev/null
+docker run -p $PORT:$PORT $1 $CONTAINER
