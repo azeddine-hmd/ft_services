@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
-php-fpm7
-nginx
+echo "welcome"
+#php-fpm7
+#nginx
