@@ -1,7 +1,5 @@
 FROM alpine
 
-EXPOSE 5050
-
 RUN apk update \
 && apk add wget \
 && apk add php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl \

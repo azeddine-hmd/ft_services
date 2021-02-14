@@ -1,5 +1,9 @@
 #!/bin/bash
 
+CONFIG=$HOME/.container
+CONTAINER=$(cat $CONFIG | grep container | cut -f 2 -d '=')
+CONTAINER=$(cat $CONFIG | grep port | cut -f 2 -d '=')
+
 usage() {
 	echo "Usage: build_docker [-h] [DOCKER_ARGUMENT ...]"
 	echo "Note: before executing, export CONTAINER and PORT varaibles."
@@ -13,7 +17,7 @@ usage() {
 [ -z "$PORT" ] && echo "error: port number is empty" && exit 2
 
 # handling signals
-trap 'echo trying && docker container stop $(docker ps -f ancestor=$CONTAINER)' SIGTSTP
+trap 'clear;echo -e "shutting down container [$CONTAINER:$PORT] please wait..."; docker container stop $(docker ps -q -f ancestor=$CONTAINER;clear)' SIGINT
 
 # building and running container
 echo "running container [$CONTAINER:$PORT]..."
