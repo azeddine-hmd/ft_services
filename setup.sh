@@ -1,5 +1,12 @@
 #!/bin/bash
 
+ROOT="$(PWD)/srcs"
+WORDPRESS_CONFIG=$ROOT/kubernetes/wordpress.yaml
+PHPMYADMIN_CONFIG=$ROOT/kubernetes/phpmyadmin.yaml
+
+# before starting minikube check if already exist
+minikube delete
+
 # start minikube
 minikube start
 
@@ -10,6 +17,9 @@ eval $(minikube docker-env)
 docker build -t wordpress srcs/wordpress
 docker build -t phpmyadmin srcs/phpmyadmin
 
-# running each images to a single pod
-kubectl run wordpress-pod --image=wordpress --image-pull-policy=Never --port=5050
-kubectl run phpmyadmin-pod --image=phpmyadmin --image-pull-policy=Never --port=5000
+# running each image in a single pod
+[ -f "$WORDPRESS_CONFIG" ] && kubectl create -f $WORDPRESS_CONFIG
+[ -f "$PHPMYADMIN_CONFIG" ] && kubectl create -f $PHPMYADMIN_CONFIG
+
+# adding service type of loadbalancer for each of pod
+# TODO: later
