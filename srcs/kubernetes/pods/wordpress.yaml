@@ -5,8 +5,13 @@ metadata:
 spec:
     containers:
     - image: wordpress
-      imagePullPolicy: Never
       name: wordpress
+      imagePullPolicy: Never
       ports:
       - containerPort: 5050
         protocol: TCP
+      livenessProbe:
+          exec:
+              command:
+                  - sh
+                  - health.sh

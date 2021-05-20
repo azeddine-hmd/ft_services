@@ -1,4 +1,5 @@
 FROM alpine
+ARG IP
 
 RUN apk update \
 && apk add wget \
@@ -6,6 +7,7 @@ RUN apk update \
 php7-mbstring php7-json php7-session \
 && apk add nginx \
 && apk add vim
+RUN apk add telegraf --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted --no-cache
 
 # wordpress setup
 RUN wget https://wordpress.org/latest.tar.gz \
@@ -16,6 +18,10 @@ RUN wget https://wordpress.org/latest.tar.gz \
 # nginx setup
 COPY config/nginx.conf /etc/nginx
 RUN mkdir /run/nginx
+
+# LivenessProbe
+COPY scripts/health.sh /
+RUN chmod +x health.sh
 
 # run
 COPY scripts/services.sh /

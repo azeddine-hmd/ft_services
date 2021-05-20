@@ -1,4 +1,5 @@
 FROM alpine
+ARG IP
 
 EXPOSE 5000
 
@@ -19,6 +20,10 @@ RUN wget https://files.phpmyadmin.net\
 # nginx setup
 COPY config/nginx.conf /etc/nginx
 RUN mkdir /run/nginx
+
+# LivenessProbe
+COPY scripts/health.sh /
+RUN chmod +x health.sh
 
 # run
 COPY scripts/services.sh /

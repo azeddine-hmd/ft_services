@@ -8,9 +8,10 @@ spec:
       imagePullPolicy: Never
       name: phpmyadmin
       livenessProbe:
-          httpGet:
-              path: /
-              port: 8080
+          exec:
+              command:
+                  - sh
+                  - health.sh
       ports:
       - containerPort: 5000
         protocol: TCP

@@ -1,20 +1,31 @@
 #!/bin/bash
 
-ROOT="$(PWD)/srcs"
-KUBERNETES_CONFIG=$ROOT/kubernetes
+KUBE=srcs/kubernetes
+CONT=srcs/containers
 
 # start minikube
-minikube start
+if ! minikube status | grep -q 'host: Running'; then
+	minikube start
+fi
 
-# using minikube docker host
+# enabling addons
+minikube addons enable dashboard
+minikube addons enable metallb
+
+# launching dashboard
+echo "Launching dashboard..."
+minikube dashboard 2>/dev/null >/dev/null &
+
 eval $(minikube docker-env)
 
-# build images
-docker build -t wordpress srcs/wordpress
-docker build -t phpmyadmin srcs/phpmyadmin
+# Minikube IP
+IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
+printf "Minikube IP: ${IP}"
 
-# running each image in a single pod
-[ -d "$KUBERNETES_CONFIG" ] && kubectl apply -f $KUBERNETES_CONFIG
+# Building images
+echo "Building images..."
+docker build -t wordpress $CONT/wordpress --build-arg IP=$IP
+docker build -t phpmyadmin $CONT/phpmyadmin --build-arg IP=$IP
 
-# adding service type of loadbalancer for each of pod
-# TODO: later
+# launch pods
+kubectl apply -f $KUBE/pods
