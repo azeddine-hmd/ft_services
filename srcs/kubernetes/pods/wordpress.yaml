@@ -15,3 +15,5 @@ spec:
               command:
                   - sh
                   - health.sh
+          initialDelaySeconds: 25
+          periodSeconds: 20

@@ -12,6 +12,8 @@ spec:
               command:
                   - sh
                   - health.sh
+          initialDelaySeconds: 25
+          periodSeconds: 20
       ports:
       - containerPort: 5000
         protocol: TCP
