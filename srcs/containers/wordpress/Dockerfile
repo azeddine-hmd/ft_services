@@ -5,11 +5,11 @@ EXPOSE 5050
 RUN apk update \
 && apk add bash \
 && apk add wget \
+&& apk add vim \
 && apk add php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl \
 php7-mbstring php7-json php7-session \
 && apk add nginx \
-&& apk add vim
-RUN apk add telegraf --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted --no-cache
+&& apk add telegraf --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted --no-cache
 
 # wordpress setup
 RUN wget https://wordpress.org/latest.tar.gz \
@@ -24,6 +24,9 @@ RUN mkdir /run/nginx
 # LivenessProbe
 COPY scripts/health.sh /
 RUN chmod +x health.sh
+
+# storing loadbalancer ip
+RUN echo "export IP=$IP" >> $HOME/.profile
 
 # run
 COPY scripts/services.sh /

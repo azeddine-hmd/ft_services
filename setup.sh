@@ -4,37 +4,26 @@ KUBE=srcs/kubernetes
 CONT=srcs/containers
 
 # start minikube
-if ! minikube status | grep -q 'host: Running'; then
+if ! minikube status | grep -q 'host: Running' > /dev/null 1>&2; then
 	minikube start
 fi
-
-# enabling minikube addons
-minikube addons enable dashboard > /dev/null 1>&2
-minikube addons enable metallb > /dev/null 1>&2
-
-# launching dashboard
-echo "Launching dashboard..."
-minikube dashboard > /dev/null 1>&2 &
 
 # eval
 echo "eval docker env..."
 eval $(minikube docker-env)
 
-# minikube IP
-IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
-printf "Minikube IP: ${IP}\n"
+# enabling minikube addons
+minikube addons enable dashboard
+minikube addons enable metallb
+minikube addons enable metrics-server
 
-# Building images
-echo "Building images..."
-docker build -t wordpress $CONT/wordpress --build-arg IP=$IP
-docker build -t phpmyadmin $CONT/phpmyadmin --build-arg IP=$IP
-echo "$IP"
+# images
+docker build -t wordpress $CONT/wordpress
+docker build -t phpmyadmin $CONT/phpmyadmin
+docker build -t mysql $CONT/mysql
 
-# apply configmap
-kubectl apply -f $KUBE/configmap
+# delete all resources
+kubectl delete all --all
 
-# launch pods
-kubectl apply -f $KUBE/pods
-
-# Last opening network in browser
-#open http://$IP
+# applying kubernetes resources
+kubectl apply -f $KUBE
