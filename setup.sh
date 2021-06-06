@@ -19,6 +19,7 @@ docker build -t wordpress $CONT/wordpress
 docker build -t phpmyadmin $CONT/phpmyadmin
 docker build -t mysql $CONT/mysql
 docker build -t nginx $CONT/nginx
+docker build -t nginx $CONT/ftps
 
 # delete all resources
 kubectl delete all --all
