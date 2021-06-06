@@ -1,19 +1,46 @@
+kind: Service
 apiVersion: v1
-kind: Pod
 metadata:
-    name: wordpress
+  name: wordpress-svc
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared
+  labels:
+    app: wordpress
 spec:
-    containers:
-    - image: wordpress
+  selector:
+    app: wordpress
+  ports:
+    - port: 5050
+      targetPort: 5050
+  type: LoadBalancer
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: wordpress-deploy
+  labels:
+    app: wordpress
+spec:
+  replicas: 1
+  template:
+    metadata:
       name: wordpress
-      imagePullPolicy: Never
-      ports:
-      - containerPort: 5050
-        protocol: TCP
-      livenessProbe:
-          exec:
-              command:
-                  - sh
-                  - health.sh
-          initialDelaySeconds: 25
-          periodSeconds: 20
+      labels:
+        app: wordpress
+    spec:
+      containers:
+        - name: wordpress
+          image: wordpress
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5050
+          livenessProbe:
+           exec:
+            command:
+            - sh
+            - health.sh
+           initialDelaySeconds: 25
+           periodSeconds: 5
+  selector:
+    matchLabels:
+      app: wordpress
