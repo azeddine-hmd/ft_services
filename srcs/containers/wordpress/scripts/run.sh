@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# telegraf
+mkdir /etc/telegraf
+cp telegraf.conf /etc/telegraf/telegraf.conf
+telegraf &
+
 # wordpress
 mkdir www
 mv wordpress/* www

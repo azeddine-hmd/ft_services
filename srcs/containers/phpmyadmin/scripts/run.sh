@@ -1,9 +1,14 @@
 #!/bin/sh
 
+# telegraf
+mkdir /etc/telegraf
+cp telegraf.conf /etc/telegraf/telegraf.conf
+telegraf &
+
 # phpmyadmin
 mkdir www
-mv phpMyAdmin-5.0.4-english/* www
-mv config.inc.php www
+cp -r phpMyAdmin-5.0.4-english/* www
+cp config.inc.php www/config.inc.php
 
 # nginx
 mv nginx.conf /etc/nginx

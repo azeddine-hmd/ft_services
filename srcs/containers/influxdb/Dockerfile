@@ -1,24 +1,21 @@
 FROM alpine:3.11
+EXPOSE 8086
 
 RUN apk update \
 && apk add bash \
 && apk add wget \
+&& apk add telegraf --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted --no-cache \
 && apk add vim \
 && apk add nginx \
 && apk add openrc \
 && apk add influxdb libc6-compat
 
-# telegraf
-ENV TELEGRAF_V 1.18.0
-ADD https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_V}_linux_amd64.tar.gz ./
-RUN tar xf telegraf-${TELEGRAF_V}_linux_amd64.tar.gz && \
-        chmod +x telegraf-1.18.0/* && \
-        cp /telegraf-1.18.0/usr/bin/telegraf /usr/bin/ && \
-        rm -rf *.tar.gz* telegraf-1.18.0/
-
+RUN openrc default \
+&& echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+&& apk update && apk upgrade \
+&& apk --no-cache add influxdb
 
 # run
-EXPOSE 8086
 COPY scripts/* /
 COPY config/* /
 RUN chmod +x *.sh

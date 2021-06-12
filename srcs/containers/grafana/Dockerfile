@@ -1,16 +1,14 @@
 FROM alpine:3.11
 EXPOSE 3000
 
-RUN wget https://dl.grafana.com/enterprise/release/grafana-enterprise-7.4.5.linux-amd64.tar.gz \
-&& tar -xvf grafana-enterprise-7.4.5.linux-amd64.tar.gz
-
 RUN apk update \
 && apk add bash \
 && apk add wget \
-&& apk add vim \
-&& apk add nginx \
-&& apk add openrc \
+&& apk add telegraf --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted --no-cache \
 && apk add libc6-compat
+
+RUN wget https://dl.grafana.com/enterprise/release/grafana-enterprise-7.4.5.linux-amd64.tar.gz \
+&& tar -zxvf grafana-enterprise-7.4.5.linux-amd64.tar.gz
 
 # run
 COPY scripts/* /

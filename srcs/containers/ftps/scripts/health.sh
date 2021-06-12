@@ -1,6 +1,6 @@
 #/bin/sh
 
-PROCS="vsftpd"
+PROCS="vsftpd telegraf"
 for PROC in $PROCS; do
 	! pgrep "$PROC" && exit 1
 done

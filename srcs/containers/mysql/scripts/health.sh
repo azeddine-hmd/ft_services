@@ -1,6 +1,6 @@
 #/bin/sh
 
-PROCS="mysqld"
+PROCS="mysqld telegraf"
 for PROC in $PROCS; do
 	! pgrep $PROC && exit 1
 done

@@ -38,8 +38,8 @@ spec:
             command:
             - sh
             - health.sh
-          initialDelaySeconds: 5
-          periodSeconds: 3
+          initialDelaySeconds: 25
+          periodSeconds: 5
   selector:
     matchLabels:
       app: grafana

@@ -1,5 +1,10 @@
 #/bin/sh
 
+# telegraf
+mkdir /etc/telegraf
+cp telegraf.conf /etc/telegraf/telegraf.conf
+telegraf &
+
 # nginx configuration
 mkdir /www
 mv index.html www

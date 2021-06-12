@@ -1,6 +1,9 @@
 #/bin/sh
 
-SLEEP_TIME=60
+# telegraf
+mkdir /etc/telegraf
+cp telegraf.conf /etc/telegraf/telegraf.conf
+telegraf &
 
 # more matsawbat
 openrc default
