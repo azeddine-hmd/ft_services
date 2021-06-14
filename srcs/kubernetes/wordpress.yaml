@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: wordpress-svc
+  name: wordpress
   annotations:
     metallb.universe.tf/allow-shared-ip: shared
   labels:
@@ -17,7 +17,7 @@ spec:
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: wordpress-deploy
+  name: wordpress
   labels:
     app: wordpress
 spec:
@@ -40,7 +40,7 @@ spec:
             - sh
             - health.sh
            initialDelaySeconds: 25
-           periodSeconds: 5
+           periodSeconds: 10
   selector:
     matchLabels:
       app: wordpress

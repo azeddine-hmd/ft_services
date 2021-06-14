@@ -1,10 +1,5 @@
 #/bin/sh
 
-# telegraf
-mkdir /etc/telegraf
-cp telegraf.conf /etc/telegraf/telegraf.conf
-telegraf &
-
 # nginx configuration
 mkdir /www
 mv index.html www
@@ -16,5 +11,10 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj '/C=MA/ST=rhamna/L=Ben
 openrc default
 rc-service nginx start
 rc-service sshd start
+
+# telegraf
+mkdir /etc/telegraf
+cp telegraf.conf /etc/telegraf/telegraf.conf
+telegraf &
 
 tail -f /dev/null

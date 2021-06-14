@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-svc
+  name: mysql
   annotations:
     metallb.universe.tf/allow-shared-ip: shared
   labels:
@@ -51,7 +51,7 @@ spec:
             command:
             - sh
             - health.sh
-          initialDelaySeconds: 25
+          initialDelaySeconds: 50
           periodSeconds: 5
         volumeMounts:
         - name: mysql-ps

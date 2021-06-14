@@ -1,6 +1,6 @@
 #/bin/sh
 
-PROCS="grafana telegraf"
+PROCS="grafana"
 for PROC in $PROCS; do
 	! pgrep "$PROC" && exit 1
 done

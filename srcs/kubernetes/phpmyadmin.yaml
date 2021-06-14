@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: phpmyadmin-svc
+  name: phpmyadmin
   annotations:
     metallb.universe.tf/allow-shared-ip: shared
   labels:
@@ -13,12 +13,11 @@ spec:
     - port: 5000
       targetPort: 5000
   type: LoadBalancer
-
 ---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: phpmyadmin-deploy
+  name: phpmyadmin
   labels:
     app: phpmyadmin
 spec:
@@ -40,8 +39,8 @@ spec:
             command:
             - sh
             - health.sh
-           initialDelaySeconds: 25
-           periodSeconds: 5
+           initialDelaySeconds: 10
+           periodSeconds: 3
   selector:
     matchLabels:
       app: phpmyadmin

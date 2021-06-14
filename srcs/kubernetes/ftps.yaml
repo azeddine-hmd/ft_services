@@ -50,8 +50,8 @@ spec:
             command:
             - sh
             - health.sh
-          initialDelaySeconds: 25
-          periodSeconds: 5
+          initialDelaySeconds: 5
+          periodSeconds: 3
   selector:
     matchLabels:
       app: ftps

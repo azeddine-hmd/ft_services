@@ -1,10 +1,5 @@
 #/bin/sh
 
-# telegraf
-mkdir /etc/telegraf
-cp telegraf.conf /etc/telegraf/telegraf.conf
-telegraf &
-
 # more matsawbat
 openrc default
 cp mariadb-server.cnf /etc/my.cnf.d
@@ -24,5 +19,9 @@ echo "GRANT ALL PRIVILEGES ON wp_db.* TO 'admin'@'%' IDENTIFIED BY 'admin';" | m
 echo "FLUSH PRIVILEGES;" | mysql -u root
 mariadb -u root < wp_db.sql
 
+# telegraf
+mkdir /etc/telegraf
+cp telegraf.conf /etc/telegraf/telegraf.conf
+telegraf &
 
 tail -f /dev/null

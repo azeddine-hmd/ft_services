@@ -20,4 +20,5 @@ RUN adduser -D user \
 COPY scripts/* /
 COPY config/* /
 RUN chmod +x *.sh
+VOLUME ['/sys/fs/cgroup']
 CMD ["sh", "run.sh"]

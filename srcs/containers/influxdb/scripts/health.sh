@@ -1,6 +1,6 @@
 #/bin/sh
 
-PROCS="influxd telegraf"
+PROCS="influxd"
 for PROC in $PROCS; do
 	! pgrep "$PROC" && exit 1
 done

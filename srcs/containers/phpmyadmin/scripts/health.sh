@@ -1,6 +1,6 @@
 #/bin/sh
 
-PROCS="nginx php-fpm telegraf"
+PROCS="nginx php-fpm"
 for PROC in $PROCS; do
 	! pgrep "$PROC" && exit 1
 done

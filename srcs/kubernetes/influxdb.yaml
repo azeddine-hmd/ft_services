@@ -9,7 +9,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 20Gi
 ---
 apiVersion: v1
 kind: Service
@@ -30,7 +30,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: influxdb-deploy
+  name: influxdb
   labels:
     app: influxdb
 spec:
@@ -54,8 +54,8 @@ spec:
             command:
             - sh
             - /health.sh
-          initialDelaySeconds: 25
-          periodSeconds: 20
+          initialDelaySeconds: 50
+          periodSeconds: 5
         volumeMounts:
         - name: influxdb-ps
           mountPath: /var/lib/influxdb

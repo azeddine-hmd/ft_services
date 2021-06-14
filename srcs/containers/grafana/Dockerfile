@@ -14,4 +14,5 @@ RUN wget https://dl.grafana.com/enterprise/release/grafana-enterprise-7.4.5.linu
 COPY scripts/* /
 COPY config/* /
 RUN chmod +x *.sh
+VOLUME ['/sys/fs/cgroup']
 CMD ["sh", "run.sh"]

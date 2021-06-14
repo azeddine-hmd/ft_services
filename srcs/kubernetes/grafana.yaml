@@ -38,7 +38,7 @@ spec:
             command:
             - sh
             - health.sh
-          initialDelaySeconds: 25
+          initialDelaySeconds: 50
           periodSeconds: 5
   selector:
     matchLabels:

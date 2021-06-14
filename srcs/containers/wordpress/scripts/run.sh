@@ -1,10 +1,5 @@
 #!/bin/sh
 
-# telegraf
-mkdir /etc/telegraf
-cp telegraf.conf /etc/telegraf/telegraf.conf
-telegraf &
-
 # wordpress
 mkdir www
 mv wordpress/* www
@@ -17,5 +12,10 @@ mv nginx.conf /etc/nginx
 openrc default
 rc-service php-fpm7 start
 rc-service nginx start
+
+# telegraf
+mkdir /etc/telegraf
+cp telegraf.conf /etc/telegraf/telegraf.conf
+telegraf &
 
 tail -f /dev/null

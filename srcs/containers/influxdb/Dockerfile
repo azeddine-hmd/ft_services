@@ -1,6 +1,7 @@
 FROM alpine:3.11
 EXPOSE 8086
 
+
 RUN apk update \
 && apk add bash \
 && apk add wget \
@@ -19,4 +20,5 @@ RUN openrc default \
 COPY scripts/* /
 COPY config/* /
 RUN chmod +x *.sh
+VOLUME ['/sys/fs/cgroup']
 CMD ["sh", "run.sh"]

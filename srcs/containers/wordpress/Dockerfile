@@ -19,4 +19,5 @@ RUN wget https://wordpress.org/latest.tar.gz \
 && tar -xvf latest.tar.gz
 
 # run
+VOLUME ['/sys/fs/cgroup']
 CMD ["sh", "run.sh"]

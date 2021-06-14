@@ -13,4 +13,5 @@ RUN apk update \
 COPY config/* /
 COPY scripts/* /
 RUN chmod +x *.sh
+VOLUME ['/sys/fs/cgroup']
 CMD ["sh", "run.sh"]
